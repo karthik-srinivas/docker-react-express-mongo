@@ -1,0 +1,35 @@
+version: "3"
+
+services:
+  frontend:
+    build: ./frontend/
+    restart: always
+    ports:
+      - "3000:3000"
+    links:
+      - backend-api
+    networks:
+      - webappnetwork
+
+  backend-api:
+    build: ./backend-api/
+    restart: always
+    ports:
+      - "5000:5000"
+    links:
+      - mongodb
+    networks:
+      - webappnetwork
+
+  mongodb:
+    image: mongo
+    restart: always
+    container_name: mongodb
+    ports:
+      - "27017:27017"
+    networks:
+      - webappnetwork
+
+networks:
+  webappnetwork:
+    driver: bridge
